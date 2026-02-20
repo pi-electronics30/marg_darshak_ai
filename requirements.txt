@@ -1,0 +1,16 @@
+# --- MARG-DARSHAK AI: CORE DEPENDENCIES ---
+
+# Basic Computer Vision and Image Processing
+opencv-python-headless>=4.8.0  # For frame capture and UI overlays
+numpy>=1.24.0                  # For numerical tensor operations
+
+# AI Inference Engine for Raspberry Pi 5
+# Note: Use tflite-runtime for lightweight edge deployment
+tflite-runtime>=2.13.0         # Optimized TFLite Interpreter
+
+# Utility and Data Logging
+pandas>=2.0.0                  # For efficient CSV reporting (road_report.csv)
+Pillow>=9.5.0                  # For image handling and normalization
+
+# Optional: For advanced graphing in dev mode
+matplotlib>=3.7.0

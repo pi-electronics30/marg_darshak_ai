@@ -8,9 +8,7 @@ class CAMERA:
         self.width = width
         self.height = height
         
-        # rpicam-vid command to stream raw frames to stdout
-        # --inline: sequence headers in every intra frame
-        # --nopreview: disables local display to save GPU memory
+     
         self.cmd = [
             'rpicam-vid',
             '-t', '0', 
@@ -20,11 +18,11 @@ class CAMERA:
             '--codec', 'mjpeg',
             '--inline',
             '--nopreview',
-            '-o', '-' # Output to stdout for pipe
+            '-o', '-' 
         ]
         
         try:
-            # Start the rpicam-vid process
+     
             self.process = subprocess.Popen(self.cmd, stdout=subprocess.PIPE, bufsize=10**8)
             print("MARG-DARSHAK AI - rpicam-vid Process Started")
             self.running = True
@@ -46,13 +44,13 @@ class CAMERA:
         # Buffer to store frame data
         bytes_data = b''
         while self.running:
-            # Reading chunks from pipe
+          
             chunk = self.process.stdout.read(4096)
             if not chunk:
                 break
             bytes_data += chunk
             
-            # MJPEG frame boundaries detection (Start and End of Image)
+           
             a = bytes_data.find(b'\xff\xd8') # SOI
             b = bytes_data.find(b'\xff\xd9') # EOI
             
@@ -60,7 +58,7 @@ class CAMERA:
                 jpg = bytes_data[a:b+2]
                 bytes_data = bytes_data[b+2:]
                 
-                # Decode JPEG to OpenCV frame
+
                 frame = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
                 
                 if frame is not None:
@@ -68,14 +66,12 @@ class CAMERA:
                         self.frame = frame
 
     def get_frame(self):
-        """Returns the status and latest frame for main.py."""
         with self.lock:
             if self.frame is None:
                 return False, None
             return True, self.frame.copy()
 
     def release(self):
-        """Kills the subprocess and cleans up."""
         self.running = False
         if self.process:
             self.process.terminate()

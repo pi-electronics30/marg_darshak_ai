@@ -50,6 +50,7 @@ Marg-Darshak-AI/
 
 |___main.py              #main excution script
 ├── src/
+|   |--camera.py         # to use camera as source to detect road anomaly
 │   |__video.py          # to use a video as source to detect road anomaly
 │   ├── camera.py        # Frame acquisition & preprocessing
 │   ├── inference.py     # TFLite Engine & YOLOv8n logic
